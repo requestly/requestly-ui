@@ -18,8 +18,9 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
-    "declarationDir": "dist"
+    "declarationDir": "dist",
+    "rootDir": "src"
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["src", "stories"]
+  "include": ["src"]
 }

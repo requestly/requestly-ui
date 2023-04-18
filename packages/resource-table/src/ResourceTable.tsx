@@ -8,7 +8,7 @@ import ResourceTableRow from "./ResourceTableRow";
 import { Column, DetailsTab } from "./types";
 import "./resourceTable.scss";
 
-interface Props<ResourceType> {
+interface ResourceTableProps<ResourceType> {
   colorScheme?: "light" | "dark";
   resources: ResourceType[];
   columns: Column<ResourceType>[];
@@ -34,7 +34,7 @@ const ResourceTable = <ResourceType,>({
   isFailed,
   onRowSelection,
   onDetailsTabChange,
-}: Props<ResourceType>): ReactElement => {
+}: ResourceTableProps<ResourceType>): ReactElement => {
   const [selectedRowId, setSelectedRowId] = useState("");
   const [scrollableContainerRef, onScroll] = useAutoScrollableContainer<HTMLDivElement>(resources);
 
@@ -85,7 +85,7 @@ const ResourceTable = <ResourceType,>({
             </Table.Head>
             <Table.Body>
               {resources.map((resource, index) =>
-                filter(resource) ? (
+                !filter || filter(resource) ? (
                   <ResourceTableRow
                     key={index}
                     id={getRowId(index)}
