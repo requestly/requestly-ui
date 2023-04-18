@@ -1,5 +1,10 @@
 import { ReactNode } from 'react';
 
+export enum ColorScheme {
+  LIGHT = "light",
+  DARK = "dark",
+}
+
 export interface Column<ResourceType> {
   key: string;
   header: string;

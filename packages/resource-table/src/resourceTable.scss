@@ -1,11 +1,18 @@
 .rq-resource-table-container {
-  display: flex;
+  background-color: var(--rq-bg-color-primary);
   height: 100%;
+  width: 100%;
 
-  > div {
-    overflow: auto;
-    width: 50%;
-    flex: 1 1 auto;
+  .rq-resource-table-splitpane {
+    display: flex;
+    height: 100%;
+    width: 100%;
+
+    > div {
+      overflow: auto;
+      width: 50%;
+      flex: 1 1 auto;
+    }
   }
 
   .rq-resource-table {

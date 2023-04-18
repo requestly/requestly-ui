@@ -1,23 +1,21 @@
 .rq-resource-table-container {
   --rq-font-size-small: 11px;
-  --rq-font-size-normal: 12px; //
-  --rq-font-size-large: 14px; //
-  --rq-color-primary: black; //
-  --rq-color-secondary: #202124; //
-  --rq-color-error: #ed4e4c; //
-  --rq-border-color: #cdcdcd; //
+  --rq-font-size-normal: 12px;
+  --rq-font-size-large: 14px;
+  --rq-color-primary: black;
+  --rq-color-secondary: #202124;
+  --rq-color-error: #ed4e4c;
+  --rq-border-color: #cdcdcd;
   --rq-bg-color-primary: #fff;
   --rq-bg-color-secondary: #f5f5f5;
   --rq-bg-color-row-hover: #ebebeb;
-  --rq-bg-color-error-row-selected: #fbd1cf; //
+  --rq-bg-color-error-row-selected: #fbd1cf;
   --rq-bg-color-primary-tab-selected: #dadada;
-  --rq-bg-color-secondary-tab-selected: transparent; //
+  --rq-bg-color-secondary-tab-selected: transparent;
   --rq-bg-color-radiobutton-selected: #dadce0;
   --rq-bg-color-toolbar: #f1f3f4;
-}
 
-@media (prefers-color-scheme: dark) {
-  .rq-resource-table-container {
+  &[data-scheme="dark"] {
     --rq-color-primary: #ffffff;
     --rq-color-secondary: #bdc6cf;
     --rq-border-color: #3c3d3c;

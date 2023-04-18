@@ -5,11 +5,11 @@ import { Table } from '@devtools-ds/table';
 import useAutoScrollableContainer from './useAutoScrollableContainer';
 import ResourceDetailsTabs from './ResourceDetailsTabs/ResourceDetailsTabs';
 import ResourceTableRow from './ResourceTableRow';
-import { Column, DetailsTab } from './types';
+import { ColorScheme, Column, DetailsTab } from './types';
 import './resourceTable.scss';
 
 interface ResourceTableProps<ResourceType> {
-  colorScheme?: 'light' | 'dark';
+  colorScheme?: ColorScheme;
   resources: ResourceType[];
   columns: Column<ResourceType>[];
   primaryColumnKeys?: string[]; // columns to show when details panel is opened
@@ -25,7 +25,7 @@ const getRowId = (index: number) => (index >= 0 ? `${ROW_ID_PREFIX}${index}` : '
 const getRowIndex = (id: string) => (id ? parseInt(id.substring(ROW_ID_PREFIX.length)) : undefined);
 
 const ResourceTable = <ResourceType,>({
-  colorScheme = 'dark',
+  colorScheme = ColorScheme.DARK,
   columns,
   resources,
   primaryColumnKeys,
@@ -64,52 +64,54 @@ const ResourceTable = <ResourceType,>({
 
   return (
     <ThemeProvider theme={'chrome'} colorScheme={colorScheme}>
-      <SplitPane className="rq-resource-table-container">
-        <div>
-          <Table
-            className="rq-resource-table"
-            // @ts-ignore
-            ref={scrollableContainerRef}
-            onScroll={onScroll}
-            selected={selectedRowId}
-            onSelected={setSelectedRowId}
-          >
-            <Table.Head>
-              <Table.Row>
-                {columnsToRender.map((column) => (
-                  <Table.HeadCell
-                    key={column.key}
-                    style={{ width: column.width ? `${column.width}%` : 'auto' }}
-                  >
-                    {column.header}
-                  </Table.HeadCell>
-                ))}
-              </Table.Row>
-            </Table.Head>
-            <Table.Body>
-              {resources.map((resource, index) =>
-                !filter || filter(resource) ? (
-                  <ResourceTableRow
-                    key={index}
-                    id={getRowId(index)}
-                    resource={resource}
-                    columns={columnsToRender}
-                    isFailed={isFailed}
-                  />
-                ) : null,
-              )}
-            </Table.Body>
-          </Table>
-        </div>
-        {selectedResource && detailsTabs ? (
-          <ResourceDetailsTabs
-            resource={selectedResource}
-            tabs={detailsTabs}
-            close={() => setSelectedRowId('')}
-            onDetailsTabChange={onDetailsTabChange}
-          />
-        ) : null}
-      </SplitPane>
+      <div className="rq-resource-table-container" data-scheme={colorScheme}>
+        <SplitPane className="rq-resource-table-splitpane">
+          <div>
+            <Table
+              className="rq-resource-table"
+              // @ts-ignore
+              ref={scrollableContainerRef}
+              onScroll={onScroll}
+              selected={selectedRowId}
+              onSelected={setSelectedRowId}
+            >
+              <Table.Head>
+                <Table.Row>
+                  {columnsToRender.map((column) => (
+                    <Table.HeadCell
+                      key={column.key}
+                      style={{ width: column.width ? `${column.width}%` : 'auto' }}
+                    >
+                      {column.header}
+                    </Table.HeadCell>
+                  ))}
+                </Table.Row>
+              </Table.Head>
+              <Table.Body>
+                {resources.map((resource, index) =>
+                  !filter || filter(resource) ? (
+                    <ResourceTableRow
+                      key={index}
+                      id={getRowId(index)}
+                      resource={resource}
+                      columns={columnsToRender}
+                      isFailed={isFailed}
+                    />
+                  ) : null,
+                )}
+              </Table.Body>
+            </Table>
+          </div>
+          {selectedResource && detailsTabs ? (
+            <ResourceDetailsTabs
+              resource={selectedResource}
+              tabs={detailsTabs}
+              close={() => setSelectedRowId('')}
+              onDetailsTabChange={onDetailsTabChange}
+            />
+          ) : null}
+        </SplitPane>
+      </div>  
     </ThemeProvider>
   );
 };
