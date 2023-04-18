@@ -1,6 +1,4 @@
 import React, { ReactElement, memo, useCallback } from 'react';
-// @ts-ignore
-import { ObjectInspector } from '@devtools-ds/object-inspector';
 import { Navigation } from '@devtools-ds/navigation';
 import { DetailsTab } from '../types';
 import './resourceDetailsTabs.scss';

@@ -21,8 +21,9 @@ interface ResourceTableProps<ResourceType> {
 }
 
 const ROW_ID_PREFIX = 'resource-'; // TODO: move to local state
-const getRowId = (index: number) => (index >= 0 ? `${ROW_ID_PREFIX}${index}` : '');
-const getRowIndex = (id: string) => (id ? parseInt(id.substring(ROW_ID_PREFIX.length)) : undefined);
+const getRowId = (index: number): string => (index >= 0 ? `${ROW_ID_PREFIX}${index}` : '');
+const getRowIndex = (id: string): number =>
+  id ? parseInt(id.substring(ROW_ID_PREFIX.length)) : undefined;
 
 const ResourceTable = <ResourceType,>({
   colorScheme = ColorScheme.DARK,
@@ -111,7 +112,7 @@ const ResourceTable = <ResourceType,>({
             />
           ) : null}
         </SplitPane>
-      </div>  
+      </div>
     </ThemeProvider>
   );
 };

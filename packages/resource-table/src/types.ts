@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 
 export enum ColorScheme {
-  LIGHT = "light",
-  DARK = "dark",
+  LIGHT = 'light',
+  DARK = 'dark',
 }
 
 export interface Column<ResourceType> {

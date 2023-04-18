@@ -19,13 +19,17 @@ export default meta;
 
 export const Primary: Story = {
   render: () => {
-    const [companyFilter, setCompanyFilter] = useState("");
+    const [companyFilter, setCompanyFilter] = useState('');
 
     return (
       <>
         <div className="filter-toolbar">
           <label htmlFor="company-filter">Company</label>
-          <input id="company-filter" value={companyFilter} onChange={(evt) => setCompanyFilter(evt.target.value)} />
+          <input
+            id="company-filter"
+            value={companyFilter}
+            onChange={(evt) => setCompanyFilter(evt.target.value)}
+          />
         </div>
         <ResourceTable
           colorScheme={useDarkMode() ? ColorScheme.DARK : ColorScheme.LIGHT}
@@ -33,7 +37,9 @@ export const Primary: Story = {
           columns={columns}
           detailsTabs={detailTabs}
           primaryColumnKeys={[columns[0].key]}
-          filter={(person: Person) => person.company.toLowerCase().includes(companyFilter.toLowerCase())}
+          filter={(person: Person) =>
+            person.company.toLowerCase().includes(companyFilter.toLowerCase())
+          }
         />
       </>
     );

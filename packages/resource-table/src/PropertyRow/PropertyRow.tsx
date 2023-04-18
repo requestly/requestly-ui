@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import "./propertyRow.scss";
+import React, { ReactNode } from 'react';
+import './propertyRow.scss';
 
 interface Props {
   name: string;
@@ -11,12 +11,8 @@ interface Props {
 const PropertyRow: React.FC<Props> = ({ name, value, actions, className }) => {
   return (
     <div className={`property-row ${className}`}>
-      <span className="property-name">
-        {name}:
-      </span>
-      <span className="property-value">
-        {value ?? "(empty)"}
-      </span>
+      <span className="property-name">{name}:</span>
+      <span className="property-value">{value ?? '(empty)'}</span>
       {actions ? <div className="property-actions">{actions}</div> : null}
     </div>
   );

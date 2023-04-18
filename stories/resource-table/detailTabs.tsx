@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { DetailsTab, PropertyRow } from '@requestly-ui/resource-table';
 import { Person } from './types';
 

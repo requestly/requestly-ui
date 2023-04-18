@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "build": "rm -rf dist && rollup -c",
-    "watch": "rm -rf dist && rollup -cw"
+    "watch": "rm -rf dist && rollup -cw",
+    "type-check": "tsc --noEmit --pretty"
   },
   "repository": {
     "type": "git",
