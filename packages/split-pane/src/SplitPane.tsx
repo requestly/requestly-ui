@@ -1,6 +1,6 @@
-import React, { ReactElement, useCallback, useEffect } from "react";
-import Split from "react-split";
-import "./splitPane.scss";
+import React, { ReactElement, useCallback, useEffect } from 'react';
+import Split from 'react-split';
+import './splitPane.scss';
 
 interface SplitPaneProps {
   children: ReactElement[];
@@ -11,7 +11,7 @@ interface SplitPaneProps {
 
 const SplitPane: React.FC<SplitPaneProps> = ({
   children = [],
-  className = "",
+  className = '',
   leftPaneSize = 50,
   ...props
 }) => {
@@ -23,11 +23,9 @@ const SplitPane: React.FC<SplitPaneProps> = ({
   }
 
   const positionDragger = useCallback(([leftSize]: [number]) => {
-    const dragger = document.querySelector(
-      ".split-pane .gutter"
-    ) as HTMLDivElement;
+    const dragger = document.querySelector('.split-pane .gutter') as HTMLDivElement;
     if (dragger) {
-      dragger.style.position = "absolute";
+      dragger.style.position = 'absolute';
       dragger.style.left = `${leftSize}%`;
     }
   }, []);

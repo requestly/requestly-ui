@@ -1,4 +1,4 @@
-import "./theme.scss";
+import './theme.scss';
 
-export { default as ResourceTable } from "./ResourceTable";
-export * from "./types";
+export { default as ResourceTable } from './ResourceTable';
+export * from './types';

@@ -1,9 +1,9 @@
-import React, { ReactElement, memo, useCallback } from "react";
+import React, { ReactElement, memo, useCallback } from 'react';
 // @ts-ignore
-import { ObjectInspector } from "@devtools-ds/object-inspector";
-import { Navigation } from "@devtools-ds/navigation";
-import { DetailsTab } from "../types";
-import "./resourceDetailsTabs.scss";
+import { ObjectInspector } from '@devtools-ds/object-inspector';
+import { Navigation } from '@devtools-ds/navigation';
+import { DetailsTab } from '../types';
+import './resourceDetailsTabs.scss';
 
 interface Props<ResourceType> {
   resource: ResourceType;
@@ -37,11 +37,7 @@ const ResourceDetailsTabs = <ResourceType,>({
           </Navigation.Left>
           <Navigation.TabList>
             {tabs.map((tab) => (
-              <Navigation.Tab
-                key={tab.key}
-                className="rq-resource-details-tab"
-                id={tab.key}
-              >
+              <Navigation.Tab key={tab.key} className="rq-resource-details-tab" id={tab.key}>
                 {tab.label}
               </Navigation.Tab>
             ))}
@@ -49,10 +45,7 @@ const ResourceDetailsTabs = <ResourceType,>({
         </Navigation.Controls>
         <Navigation.Panels>
           {tabs.map((tab) => (
-            <Navigation.Panel
-              key={tab.key}
-              className="rq-resource-details-content"
-            >
+            <Navigation.Panel key={tab.key} className="rq-resource-details-content">
               {tab.render(resource)}
             </Navigation.Panel>
           ))}

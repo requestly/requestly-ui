@@ -1,15 +1,15 @@
-import React, { ReactElement, useEffect, useMemo, useState } from "react";
-import { SplitPane } from "@requestly-ui/split-pane";
-import { ThemeProvider } from "@devtools-ds/themes";
-import { Table } from "@devtools-ds/table";
-import useAutoScrollableContainer from "./useAutoScrollableContainer";
-import ResourceDetailsTabs from "./ResourceDetailsTabs/ResourceDetailsTabs";
-import ResourceTableRow from "./ResourceTableRow";
-import { Column, DetailsTab } from "./types";
-import "./resourceTable.scss";
+import React, { ReactElement, useEffect, useMemo, useState } from 'react';
+import { SplitPane } from '@requestly-ui/split-pane';
+import { ThemeProvider } from '@devtools-ds/themes';
+import { Table } from '@devtools-ds/table';
+import useAutoScrollableContainer from './useAutoScrollableContainer';
+import ResourceDetailsTabs from './ResourceDetailsTabs/ResourceDetailsTabs';
+import ResourceTableRow from './ResourceTableRow';
+import { Column, DetailsTab } from './types';
+import './resourceTable.scss';
 
 interface ResourceTableProps<ResourceType> {
-  colorScheme?: "light" | "dark";
+  colorScheme?: 'light' | 'dark';
   resources: ResourceType[];
   columns: Column<ResourceType>[];
   primaryColumnKeys?: string[]; // columns to show when details panel is opened
@@ -20,12 +20,12 @@ interface ResourceTableProps<ResourceType> {
   onDetailsTabChange?: (tabKey: string) => void; // feedback on details tab selection
 }
 
-const ROW_ID_PREFIX = "resource-"; // TODO: move to local state
-const getRowId = (index: number) => (index >= 0 ? `${ROW_ID_PREFIX}${index}` : "");
+const ROW_ID_PREFIX = 'resource-'; // TODO: move to local state
+const getRowId = (index: number) => (index >= 0 ? `${ROW_ID_PREFIX}${index}` : '');
 const getRowIndex = (id: string) => (id ? parseInt(id.substring(ROW_ID_PREFIX.length)) : undefined);
 
 const ResourceTable = <ResourceType,>({
-  colorScheme = "dark",
+  colorScheme = 'dark',
   columns,
   resources,
   primaryColumnKeys,
@@ -35,7 +35,7 @@ const ResourceTable = <ResourceType,>({
   onRowSelection,
   onDetailsTabChange,
 }: ResourceTableProps<ResourceType>): ReactElement => {
-  const [selectedRowId, setSelectedRowId] = useState("");
+  const [selectedRowId, setSelectedRowId] = useState('');
   const [scrollableContainerRef, onScroll] = useAutoScrollableContainer<HTMLDivElement>(resources);
 
   const selectedResource = useMemo<ResourceType>(() => {
@@ -63,7 +63,7 @@ const ResourceTable = <ResourceType,>({
   }, [selectedResource]);
 
   return (
-    <ThemeProvider theme={"chrome"} colorScheme={colorScheme}>
+    <ThemeProvider theme={'chrome'} colorScheme={colorScheme}>
       <SplitPane className="rq-resource-table-container">
         <div>
           <Table
@@ -77,7 +77,10 @@ const ResourceTable = <ResourceType,>({
             <Table.Head>
               <Table.Row>
                 {columnsToRender.map((column) => (
-                  <Table.HeadCell key={column.key} style={{ width: column.width ? `${column.width}%` : "auto" }}>
+                  <Table.HeadCell
+                    key={column.key}
+                    style={{ width: column.width ? `${column.width}%` : 'auto' }}
+                  >
                     {column.header}
                   </Table.HeadCell>
                 ))}
@@ -93,7 +96,7 @@ const ResourceTable = <ResourceType,>({
                     columns={columnsToRender}
                     isFailed={isFailed}
                   />
-                ) : null
+                ) : null,
               )}
             </Table.Body>
           </Table>
@@ -102,7 +105,7 @@ const ResourceTable = <ResourceType,>({
           <ResourceDetailsTabs
             resource={selectedResource}
             tabs={detailsTabs}
-            close={() => setSelectedRowId("")}
+            close={() => setSelectedRowId('')}
             onDetailsTabChange={onDetailsTabChange}
           />
         ) : null}

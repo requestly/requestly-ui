@@ -15,7 +15,5 @@ const meta: Meta<typeof ResourceTable> = {
 export default meta;
 
 export const Primary: Story = {
-  render: () => (
-    <ResourceTable resources={persons} columns={columns} />
-  )
+  render: () => <ResourceTable resources={persons} columns={columns} />,
 };

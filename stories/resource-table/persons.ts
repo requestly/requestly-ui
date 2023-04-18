@@ -7,7 +7,7 @@ const persons: Person[] = [
     email: 'alice@abc.com',
     phone: '1234567890',
     company: 'ABC Corporation',
-    designation: 'Software Engineer'
+    designation: 'Software Engineer',
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ const persons: Person[] = [
     email: 'bob@xyz.com',
     phone: '0987654321',
     company: 'XYZ Corporation',
-    designation: 'Product Manager'
+    designation: 'Product Manager',
   },
   {
     id: 3,
@@ -23,7 +23,7 @@ const persons: Person[] = [
     email: 'charlie@pqr.com',
     phone: '1122334455',
     company: 'PQR Corporation',
-    designation: 'Software Tester'
+    designation: 'Software Tester',
   },
   {
     id: 4,
@@ -31,7 +31,7 @@ const persons: Person[] = [
     email: 'david@lmn.com',
     phone: '9988776655',
     company: 'LMN Corporation',
-    designation: 'Engineering Manager'
+    designation: 'Engineering Manager',
   },
   {
     id: 5,
@@ -39,8 +39,8 @@ const persons: Person[] = [
     email: 'eve@abc.com',
     phone: '2233445566',
     company: 'ABC Corporation',
-    designation: 'Software Engineer'
-  }
+    designation: 'Software Engineer',
+  },
 ];
 
 export default persons;
