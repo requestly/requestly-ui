@@ -1,0 +1,42 @@
+{
+  "name": "@requestly-ui/split-pane",
+  "version": "0.1.0",
+  "description": "Split view to show two components side-by-side",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/requestly/requestly-ui.git"
+  },
+  "author": {
+    "name": "Requestly",
+    "email": "contact@requestly.io",
+    "url": "https://requestly.io/"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "react-split": "^2.0.14"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "@types/react": "^18.0.0",
+    "commonjs": "^0.0.1",
+    "node-sass": "^8.0.0",
+    "rollup": "^3.20.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.4"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}

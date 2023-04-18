@@ -1,0 +1,24 @@
+.rq-resource-table-container {
+  display: flex;
+  height: 100%;
+
+  > div {
+    overflow: auto;
+    width: 50%;
+    flex: 1 1 auto;
+  }
+
+  .rq-resource-table {
+    cursor: default;
+    color: var(--rq-color-secondary);
+    font-size: var(--rq-font-size-normal);
+
+    .rq-resource-table-row.failed {
+      color: var(--rq-color-error);
+
+      &:not(:hover) {
+        background-color: var(--rq-bg-color-error-row-selected);
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.left, .right {
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+.left {
+  background-color: yellow;
+}
+
+.right {
+  background-color: green;
+}
