@@ -2,6 +2,7 @@
   background-color: var(--rq-bg-color-primary);
   height: 100%;
   width: 100%;
+  overflow: auto;
 
   .rq-resource-table-splitpane {
     display: flex;
