@@ -8,16 +8,26 @@ import ResourceTableRow from './ResourceTableRow';
 import { ColorScheme, Column, DetailsTab } from './types';
 import './resourceTable.scss';
 
-interface ResourceTableProps<ResourceType> {
+export interface ResourceTableProps<ResourceType> {
   colorScheme?: ColorScheme;
   resources: ResourceType[];
   columns: Column<ResourceType>[];
-  primaryColumnKeys?: string[]; // columns to show when details panel is opened
-  detailsTabs?: DetailsTab<ResourceType>[]; // if multiple tabs to show in details panel for a resource
   filter?: (resource: ResourceType) => boolean;
-  isFailed?: (resource: ResourceType) => boolean; // if returns true, the row will be marked failed
-  onRowSelection?: (resource: ResourceType) => void; // feedback on row selection
-  onDetailsTabChange?: (tabKey: string) => void; // feedback on details tab selection
+
+  /** Columns to show when details panel is opened (split pane) */
+  primaryColumnKeys?: string[];
+
+  /** Multiple tabs to show in details panel for a resource */
+  detailsTabs?: DetailsTab<ResourceType>[];
+
+  /** If returns true, the row will be marked failed */
+  isFailed?: (resource: ResourceType) => boolean;
+
+  /** Feedback on row selection */
+  onRowSelection?: (resource: ResourceType) => void;
+
+  /** Feedback on details tab selection */
+  onDetailsTabChange?: (tabKey: string) => void;
 }
 
 const ROW_ID_PREFIX = 'resource-'; // TODO: move to local state
