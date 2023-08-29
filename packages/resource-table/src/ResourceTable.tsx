@@ -77,12 +77,9 @@ const ResourceTable = <ResourceType,>({
     <ThemeProvider theme={'chrome'} colorScheme={colorScheme}>
       <div className="rq-resource-table-container" data-scheme={colorScheme}>
         <SplitPane className="rq-resource-table-splitpane">
-          <div>
+          <div onScroll={onScroll} ref={scrollableContainerRef}>
             <Table
               className="rq-resource-table"
-              // @ts-ignore
-              ref={scrollableContainerRef}
-              onScroll={onScroll}
               selected={selectedRowId}
               onSelected={setSelectedRowId}
             >
