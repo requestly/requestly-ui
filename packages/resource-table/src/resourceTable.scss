@@ -24,7 +24,7 @@
     .rq-resource-table-row.failed {
       color: var(--rq-color-error);
 
-      &:not(:hover) {
+      &[aria-selected="true"] {
         background-color: var(--rq-bg-color-error-row-selected);
       }
     }
