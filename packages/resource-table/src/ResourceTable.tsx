@@ -2,10 +2,12 @@ import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 import { SplitPane } from '@requestly-ui/split-pane';
 import { ThemeProvider } from '@devtools-ds/themes';
 import { Table } from '@devtools-ds/table';
+import { DropDownProps } from 'antd';
 import useAutoScrollableContainer from './useAutoScrollableContainer';
 import ResourceDetailsTabs from './ResourceDetailsTabs/ResourceDetailsTabs';
 import ResourceTableRow from './ResourceTableRow';
 import { ColorScheme, Column, DetailsTab } from './types';
+import { ContextMenu } from './ContextMenu';
 import './resourceTable.scss';
 
 export interface ResourceTableProps<ResourceType> {
@@ -26,8 +28,16 @@ export interface ResourceTableProps<ResourceType> {
   /** Feedback on row selection */
   onRowSelection?: (resource: ResourceType) => void;
 
+  /** Feedback on context menu click */
+  onContextMenuRowSelection?: (resource: ResourceType) => void;
+
   /** Feedback on details tab selection */
   onDetailsTabChange?: (tabKey: string) => void;
+
+  /** Feedback on context menu open */
+  onContextMenuOpenChange?: (isOpen: boolean) => void;
+
+  contextMenuOptions?: DropDownProps['menu']['items'];
 }
 
 const ROW_ID_PREFIX = 'resource-'; // TODO: move to local state
@@ -45,8 +55,13 @@ const ResourceTable = <ResourceType,>({
   isFailed,
   onRowSelection,
   onDetailsTabChange,
+  onContextMenuOpenChange,
+  contextMenuOptions,
+  onContextMenuRowSelection,
 }: ResourceTableProps<ResourceType>): ReactElement => {
   const [selectedRowId, setSelectedRowId] = useState('');
+  const [contextMenuSelectedResource, setContextMenuSelectedResource] =
+    useState<ResourceType>(null);
   const [scrollableContainerRef, onScroll] = useAutoScrollableContainer<HTMLDivElement>(resources);
 
   const selectedResource = useMemo<ResourceType>(() => {
@@ -73,6 +88,12 @@ const ResourceTable = <ResourceType,>({
     }
   }, [selectedResource]);
 
+  useEffect(() => {
+    if (contextMenuSelectedResource) {
+      onContextMenuRowSelection?.(contextMenuSelectedResource);
+    }
+  }, [contextMenuSelectedResource]);
+
   return (
     <ThemeProvider theme={'chrome'} colorScheme={colorScheme}>
       <div className="rq-resource-table-container" data-scheme={colorScheme}>
@@ -95,19 +116,22 @@ const ResourceTable = <ResourceType,>({
                   ))}
                 </Table.Row>
               </Table.Head>
-              <Table.Body>
-                {resources.map((resource, index) =>
-                  !filter || filter(resource) ? (
-                    <ResourceTableRow
-                      key={index}
-                      id={getRowId(index)}
-                      resource={resource}
-                      columns={columnsToRender}
-                      isFailed={isFailed}
-                    />
-                  ) : null,
-                )}
-              </Table.Body>
+              <ContextMenu items={contextMenuOptions} handleOpenChange={onContextMenuOpenChange}>
+                <Table.Body>
+                  {resources.map((resource, index) =>
+                    !filter || filter(resource) ? (
+                      <ResourceTableRow
+                        key={index}
+                        id={getRowId(index)}
+                        resource={resource}
+                        columns={columnsToRender}
+                        isFailed={isFailed}
+                        setContextMenuSelectedResource={setContextMenuSelectedResource}
+                      />
+                    ) : null,
+                  )}
+                </Table.Body>
+              </ContextMenu>
             </Table>
           </div>
           {selectedResource && detailsTabs ? (
