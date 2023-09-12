@@ -1,4 +1,4 @@
-import React, { ReactElement, memo, useCallback } from 'react';
+import React, { ReactElement, memo, useCallback, useState } from 'react';
 import { Navigation } from '@devtools-ds/navigation';
 import { DetailsTab } from '../types';
 import './resourceDetailsTabs.scss';
@@ -16,7 +16,10 @@ const ResourceDetailsTabs = <ResourceType,>({
   close,
   onDetailsTabChange,
 }: Props<ResourceType>): ReactElement => {
+  const [currentTabIndex, setCurrentTabIndex] = useState(0);
+
   const onTabNavigated = useCallback((tabIndex: number) => {
+    setCurrentTabIndex(tabIndex);
     onDetailsTabChange?.(tabs[tabIndex].key);
   }, []);
 
@@ -42,9 +45,9 @@ const ResourceDetailsTabs = <ResourceType,>({
           </Navigation.TabList>
         </Navigation.Controls>
         <Navigation.Panels>
-          {tabs.map((tab) => (
-            <Navigation.Panel key={tab.key} className="rq-resource-details-content">
-              {tab.render(resource)}
+          {tabs.map((tab, idx) => (
+            <Navigation.Panel id={idx} key={tab.key} className="rq-resource-details-content">
+              {currentTabIndex === idx ? tab.render(resource) : null}
             </Navigation.Panel>
           ))}
         </Navigation.Panels>
