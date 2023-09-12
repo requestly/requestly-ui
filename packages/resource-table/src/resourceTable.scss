@@ -25,7 +25,7 @@
     .ant-dropdown-menu-submenu ul[id*='more_options'] {
       width: 250px;
       border-radius: 4px;
-      background: #222325;
+      background: var(--rq-bg-color-context-menu);
       border: 1px solid var(--rq-border-color);
     }
 
