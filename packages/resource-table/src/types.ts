@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
 
 export enum ColorScheme {
   LIGHT = 'light',
@@ -17,3 +18,8 @@ export interface DetailsTab<ResourceType> {
   label: string;
   render: (resource: ResourceType) => ReactNode;
 }
+
+export type ContextMenuOption<ResourceType> = ItemType & {
+  onSelect?: (key: React.Key, resource: ResourceType) => void;
+  children?: ContextMenuOption<ResourceType>[];
+};
