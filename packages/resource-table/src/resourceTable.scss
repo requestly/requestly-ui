@@ -21,15 +21,6 @@
     color: var(--rq-color-secondary);
     font-size: var(--rq-font-size-normal);
 
-    .rq-resource-table-context-menu .ant-dropdown-menu,
-    .ant-dropdown-menu-submenu ul[id*='more_options'] {
-      width: max-content;
-      max-width: 250px;
-      border-radius: 4px;
-      background: var(--rq-bg-color-context-menu);
-      border: 1px solid var(--rq-border-color);
-    }
-
     .rq-resource-table-row.failed {
       color: var(--rq-color-error);
 
