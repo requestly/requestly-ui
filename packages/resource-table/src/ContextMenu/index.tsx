@@ -8,22 +8,23 @@ interface ContextMenuProps {
   handleOpenChange?: DropDownProps['onOpenChange'];
 }
 
-export const ContextMenu = ({
+export const ContextMenu: React.FC<ContextMenuProps> = ({
   items,
   children,
   handleOpenChange = (isOpen) => {},
-}: ContextMenuProps) => {
-  return (
+}) => {
+  return items?.length > 0 ? (
     <Dropdown
       menu={{ items }}
       autoFocus={true}
       trigger={['contextMenu']}
       destroyPopupOnHide={true}
       onOpenChange={handleOpenChange}
-      disabled={!items || items?.length === 0}
       overlayClassName="rq-resource-table-context-menu"
     >
       {children}
     </Dropdown>
+  ) : (
+    <>{children}</>
   );
 };
