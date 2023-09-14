@@ -15,7 +15,7 @@
   --rq-bg-color-radiobutton-selected: #dadce0;
   --rq-bg-color-toolbar: #f1f3f4;
 
-  &[data-scheme="dark"] {
+  &[data-scheme='dark'] {
     --rq-color-primary: #ffffff;
     --rq-color-secondary: #bdc6cf;
     --rq-border-color: #3c3d3c;
@@ -27,5 +27,6 @@
     --rq-bg-color-secondary-tab-selected: black;
     --rq-bg-color-radiobutton-selected: #454545;
     --rq-bg-color-toolbar: #252629;
+    --rq-bg-color-context-menu: #222325;
   }
 }

@@ -5,7 +5,8 @@ import { Table } from '@devtools-ds/table';
 import useAutoScrollableContainer from './useAutoScrollableContainer';
 import ResourceDetailsTabs from './ResourceDetailsTabs/ResourceDetailsTabs';
 import ResourceTableRow from './ResourceTableRow';
-import { ColorScheme, Column, DetailsTab } from './types';
+import { ColorScheme, Column, ContextMenuOption, DetailsTab } from './types';
+import { ContextMenu } from './ContextMenu';
 import './resourceTable.scss';
 
 export interface ResourceTableProps<ResourceType> {
@@ -28,6 +29,11 @@ export interface ResourceTableProps<ResourceType> {
 
   /** Feedback on details tab selection */
   onDetailsTabChange?: (tabKey: string) => void;
+
+  /** Feedback on context menu open */
+  onContextMenuOpenChange?: (isOpen: boolean) => void;
+
+  contextMenuOptions?: ContextMenuOption<ResourceType>[];
 }
 
 const ROW_ID_PREFIX = 'resource-'; // TODO: move to local state
@@ -45,8 +51,12 @@ const ResourceTable = <ResourceType,>({
   isFailed,
   onRowSelection,
   onDetailsTabChange,
+  onContextMenuOpenChange,
+  contextMenuOptions,
 }: ResourceTableProps<ResourceType>): ReactElement => {
   const [selectedRowId, setSelectedRowId] = useState('');
+  const [contextMenuSelectedResource, setContextMenuSelectedResource] =
+    useState<ResourceType>(null);
   const [scrollableContainerRef, onScroll] = useAutoScrollableContainer<HTMLDivElement>(resources);
 
   const selectedResource = useMemo<ResourceType>(() => {
@@ -95,19 +105,26 @@ const ResourceTable = <ResourceType,>({
                   ))}
                 </Table.Row>
               </Table.Head>
-              <Table.Body>
-                {resources.map((resource, index) =>
-                  !filter || filter(resource) ? (
-                    <ResourceTableRow
-                      key={index}
-                      id={getRowId(index)}
-                      resource={resource}
-                      columns={columnsToRender}
-                      isFailed={isFailed}
-                    />
-                  ) : null,
-                )}
-              </Table.Body>
+              <ContextMenu
+                items={contextMenuOptions}
+                selectedResource={contextMenuSelectedResource}
+                handleOpenChange={onContextMenuOpenChange}
+              >
+                <Table.Body>
+                  {resources.map((resource, index) =>
+                    !filter || filter(resource) ? (
+                      <ResourceTableRow
+                        key={index}
+                        id={getRowId(index)}
+                        resource={resource}
+                        columns={columnsToRender}
+                        isFailed={isFailed}
+                        setContextMenuSelectedResource={setContextMenuSelectedResource}
+                      />
+                    ) : null,
+                  )}
+                </Table.Body>
+              </ContextMenu>
             </Table>
           </div>
           {selectedResource && detailsTabs ? (
