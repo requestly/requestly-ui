@@ -1,12 +1,4 @@
-.rq-resource-table-container {
-  .rq-resource-table {
-    .rq-resource-table-context-menu .ant-dropdown-menu,
-    .ant-dropdown-menu-submenu ul[id*='more_options'] {
-      width: max-content;
-      max-width: 250px;
-      border-radius: 4px;
-      background: var(--rq-bg-color-context-menu);
-      border: 1px solid var(--rq-border-color);
-    }
-  }
+.rq-resource-table-context-menu.ant-dropdown {
+  width: max-content;
+  max-width: 250px;
 }

@@ -53,7 +53,7 @@ const ResourceTable = <ResourceType,>({
   onRowSelection,
   onDetailsTabChange,
   onContextMenuOpenChange,
-  contextMenuOptions,
+  contextMenuOptions = [],
 }: ResourceTableProps<ResourceType>): ReactElement => {
   const [selectedRowId, setSelectedRowId] = useState('');
   const [contextMenuSelectedResource, setContextMenuSelectedResource] =
