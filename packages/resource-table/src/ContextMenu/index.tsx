@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { Dropdown, DropDownProps } from 'antd';
 import { ContextMenuOption } from '../types';
+import { MenuItemType, SubMenuType } from 'antd/lib/menu/hooks/useItems';
 import './contextMenu.scss';
 
 interface ContextMenuProps<ResourceType> {
@@ -21,24 +22,22 @@ export const ContextMenu = <ResourceType,>({
   }
 
   const sanitizeContextMenuItems = useCallback(
-    <ResourceType,>(options: ContextMenuOption<ResourceType>[]): DropDownProps['menu']['items'] => {
-      const updatedOptions = [];
+    <ResourceType,>(options: ContextMenuOption<ResourceType>[], selectedResource: ResourceType) => {
+      const updatedOptions: DropDownProps['menu']['items'] = [];
 
       for (let i = 0; i < options.length; i++) {
         if (options[i].children) {
           updatedOptions.push({
             ...options[i],
-            // @ts-ignore
-            children: sanitizeContextMenuItems(options[i].children),
-          });
+            children: sanitizeContextMenuItems(options[i].children, selectedResource),
+          } as SubMenuType);
         } else if (options[i].onSelect) {
           updatedOptions.push({
             ...options[i],
-            onClick: (menuInfo: unknown) => {
-              // @ts-ignore
+            onClick: (menuInfo) => {
               options[i].onSelect(menuInfo.key, selectedResource);
             },
-          });
+          } as MenuItemType);
         } else {
           updatedOptions.push(options[i]);
         }
@@ -46,12 +45,12 @@ export const ContextMenu = <ResourceType,>({
 
       return updatedOptions;
     },
-    [selectedResource],
+    [],
   );
 
   const updatedItems = useMemo(
-    () => sanitizeContextMenuItems(items),
-    [items, sanitizeContextMenuItems],
+    () => sanitizeContextMenuItems(items, selectedResource),
+    [items, selectedResource, sanitizeContextMenuItems],
   );
 
   return (
