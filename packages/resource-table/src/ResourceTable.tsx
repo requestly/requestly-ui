@@ -1,11 +1,10 @@
-import React, { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 import { SplitPane } from '@requestly-ui/split-pane';
 import { ThemeProvider } from '@devtools-ds/themes';
 import { Table } from '@devtools-ds/table';
 import useAutoScrollableContainer from './useAutoScrollableContainer';
 import ResourceDetailsTabs from './ResourceDetailsTabs/ResourceDetailsTabs';
 import ResourceTableRow from './ResourceTableRow';
-import { DropDownProps } from 'antd';
 import { ColorScheme, Column, ContextMenuOption, DetailsTab } from './types';
 import { ContextMenu } from './ContextMenu';
 import './resourceTable.scss';
@@ -53,7 +52,7 @@ const ResourceTable = <ResourceType,>({
   onRowSelection,
   onDetailsTabChange,
   onContextMenuOpenChange,
-  contextMenuOptions = [],
+  contextMenuOptions,
 }: ResourceTableProps<ResourceType>): ReactElement => {
   const [selectedRowId, setSelectedRowId] = useState('');
   const [contextMenuSelectedResource, setContextMenuSelectedResource] =
@@ -77,40 +76,6 @@ const ResourceTable = <ResourceType,>({
     }
     return columns;
   }, [selectedResource, detailsTabs, primaryColumnKeys]);
-
-  const sanitizeContextMenuOptions = useCallback(
-    <ResourceType,>(options: ContextMenuOption<ResourceType>[]): DropDownProps['menu']['items'] => {
-      const updatedOptions = [];
-
-      for (let i = 0; i < options.length; i++) {
-        if (options[i].children) {
-          updatedOptions.push({
-            ...options[i],
-            // @ts-ignore
-            children: sanitizeContextMenuOptions(options[i].children),
-          });
-        } else if (options[i].onSelect) {
-          updatedOptions.push({
-            ...options[i],
-            onClick: (menuInfo: unknown) => {
-              // @ts-ignore
-              options[i].onSelect(menuInfo.key, contextMenuSelectedResource);
-            },
-          });
-        } else {
-          updatedOptions.push(options[i]);
-        }
-      }
-
-      return updatedOptions;
-    },
-    [contextMenuSelectedResource],
-  );
-
-  const updatedContextMenuOptions = useMemo(
-    () => sanitizeContextMenuOptions(contextMenuOptions),
-    [contextMenuOptions, sanitizeContextMenuOptions],
-  );
 
   useEffect(() => {
     if (selectedResource) {
@@ -141,7 +106,8 @@ const ResourceTable = <ResourceType,>({
                 </Table.Row>
               </Table.Head>
               <ContextMenu
-                items={updatedContextMenuOptions}
+                items={contextMenuOptions}
+                selectedResource={contextMenuSelectedResource}
                 handleOpenChange={onContextMenuOpenChange}
               >
                 <Table.Body>
