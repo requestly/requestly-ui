@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useMemo, useState } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react';
 import { SplitPane } from '@requestly-ui/split-pane';
 import { ThemeProvider } from '@devtools-ds/themes';
 import { Table } from '@devtools-ds/table';
@@ -34,6 +34,8 @@ export interface ResourceTableProps<ResourceType> {
   onContextMenuOpenChange?: (isOpen: boolean) => void;
 
   contextMenuOptions?: ContextMenuOption<ResourceType>[];
+
+  emptyView?: ReactNode;
 }
 
 const ROW_ID_PREFIX = 'resource-'; // TODO: move to local state
@@ -53,6 +55,7 @@ const ResourceTable = <ResourceType,>({
   onDetailsTabChange,
   onContextMenuOpenChange,
   contextMenuOptions,
+  emptyView,
 }: ResourceTableProps<ResourceType>): ReactElement => {
   const [selectedRowId, setSelectedRowId] = useState('');
   const [contextMenuSelectedResource, setContextMenuSelectedResource] =
@@ -77,6 +80,11 @@ const ResourceTable = <ResourceType,>({
     return columns;
   }, [selectedResource, detailsTabs, primaryColumnKeys]);
 
+  const filteredResources = useMemo(
+    () => (filter ? resources.filter(filter) : resources),
+    [resources, filter],
+  );
+  console.log({ filteredResources });
   useEffect(() => {
     if (selectedResource) {
       onRowSelection?.(selectedResource);
@@ -84,60 +92,64 @@ const ResourceTable = <ResourceType,>({
   }, [selectedResource]);
 
   return (
-    <ThemeProvider theme={'chrome'} colorScheme={colorScheme}>
-      <div className="rq-resource-table-container" data-scheme={colorScheme}>
-        <SplitPane className="rq-resource-table-splitpane">
-          <div onScroll={onScroll} ref={scrollableContainerRef}>
-            <Table
-              className="rq-resource-table"
-              selected={selectedRowId}
-              onSelected={setSelectedRowId}
-            >
-              <Table.Head>
-                <Table.Row>
-                  {columnsToRender.map((column) => (
-                    <Table.HeadCell
-                      key={column.key}
-                      style={{ width: column.width ? `${column.width}%` : 'auto' }}
-                    >
-                      {column.header}
-                    </Table.HeadCell>
-                  ))}
-                </Table.Row>
-              </Table.Head>
-              <ContextMenu
-                items={contextMenuOptions}
-                selectedResource={contextMenuSelectedResource}
-                handleOpenChange={onContextMenuOpenChange}
-              >
-                <Table.Body>
-                  {resources.map((resource, index) =>
-                    !filter || filter(resource) ? (
-                      <ResourceTableRow
-                        key={index}
-                        id={getRowId(index)}
-                        resource={resource}
-                        columns={columnsToRender}
-                        isFailed={isFailed}
-                        setContextMenuSelectedResource={setContextMenuSelectedResource}
-                      />
-                    ) : null,
-                  )}
-                </Table.Body>
-              </ContextMenu>
-            </Table>
+    <>
+      {!filteredResources.length && emptyView ? (
+        { emptyView }
+      ) : (
+        <ThemeProvider theme={'chrome'} colorScheme={colorScheme}>
+          <div className="rq-resource-table-container" data-scheme={colorScheme}>
+            <SplitPane className="rq-resource-table-splitpane">
+              <div onScroll={onScroll} ref={scrollableContainerRef}>
+                <Table
+                  className="rq-resource-table"
+                  selected={selectedRowId}
+                  onSelected={setSelectedRowId}
+                >
+                  <Table.Head>
+                    <Table.Row>
+                      {columnsToRender.map((column) => (
+                        <Table.HeadCell
+                          key={column.key}
+                          style={{ width: column.width ? `${column.width}%` : 'auto' }}
+                        >
+                          {column.header}
+                        </Table.HeadCell>
+                      ))}
+                    </Table.Row>
+                  </Table.Head>
+                  <ContextMenu
+                    items={contextMenuOptions}
+                    selectedResource={contextMenuSelectedResource}
+                    handleOpenChange={onContextMenuOpenChange}
+                  >
+                    <Table.Body>
+                      {filteredResources.map((resource, index) => (
+                        <ResourceTableRow
+                          key={index}
+                          id={getRowId(index)}
+                          resource={resource}
+                          columns={columnsToRender}
+                          isFailed={isFailed}
+                          setContextMenuSelectedResource={setContextMenuSelectedResource}
+                        />
+                      ))}
+                    </Table.Body>
+                  </ContextMenu>
+                </Table>
+              </div>
+              {selectedResource && detailsTabs ? (
+                <ResourceDetailsTabs
+                  resource={selectedResource}
+                  tabs={detailsTabs}
+                  close={() => setSelectedRowId('')}
+                  onDetailsTabChange={onDetailsTabChange}
+                />
+              ) : null}
+            </SplitPane>
           </div>
-          {selectedResource && detailsTabs ? (
-            <ResourceDetailsTabs
-              resource={selectedResource}
-              tabs={detailsTabs}
-              close={() => setSelectedRowId('')}
-              onDetailsTabChange={onDetailsTabChange}
-            />
-          ) : null}
-        </SplitPane>
-      </div>
-    </ThemeProvider>
+        </ThemeProvider>
+      )}
+    </>
   );
 };
 
