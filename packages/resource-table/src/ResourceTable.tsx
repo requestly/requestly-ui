@@ -84,7 +84,7 @@ const ResourceTable = <ResourceType,>({
     () => (filter ? resources.filter(filter) : resources),
     [resources, filter],
   );
-  console.log({ filteredResources });
+
   useEffect(() => {
     if (selectedResource) {
       onRowSelection?.(selectedResource);
