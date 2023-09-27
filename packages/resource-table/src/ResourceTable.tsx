@@ -94,7 +94,7 @@ const ResourceTable = <ResourceType,>({
   return (
     <>
       {!filteredResources.length && emptyView ? (
-        { emptyView }
+        emptyView
       ) : (
         <ThemeProvider theme={'chrome'} colorScheme={colorScheme}>
           <div className="rq-resource-table-container" data-scheme={colorScheme}>
