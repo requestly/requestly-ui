@@ -1,5 +1,4 @@
 import React, { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react';
-import { SplitPane } from '@requestly-ui/split-pane';
 import { ThemeProvider } from '@devtools-ds/themes';
 import { Table } from '@devtools-ds/table';
 import useAutoScrollableContainer from './useAutoScrollableContainer';
@@ -7,6 +6,7 @@ import ResourceDetailsTabs from './ResourceDetailsTabs/ResourceDetailsTabs';
 import ResourceTableRow from './ResourceTableRow';
 import { ColorScheme, Column, ContextMenuOption, DetailsTab } from './types';
 import { ContextMenu } from './ContextMenu';
+import { SplitPane } from '@requestly-ui/split-pane';
 import './resourceTable.scss';
 
 export interface ResourceTableProps<ResourceType> {
@@ -37,7 +37,7 @@ export interface ResourceTableProps<ResourceType> {
 
   emptyView?: ReactNode;
 
-  isDisabled?: (resource: ResourceType) => boolean;
+  isRowPending?: (resource: ResourceType) => boolean;
 }
 
 const ROW_ID_PREFIX = 'resource-'; // TODO: move to local state
@@ -53,7 +53,7 @@ const ResourceTable = <ResourceType,>({
   detailsTabs,
   filter,
   isFailed,
-  isDisabled,
+  isRowPending,
   onRowSelection,
   onDetailsTabChange,
   onContextMenuOpenChange,
@@ -134,7 +134,7 @@ const ResourceTable = <ResourceType,>({
                           columns={columnsToRender}
                           isFailed={isFailed}
                           setContextMenuSelectedResource={setContextMenuSelectedResource}
-                          isDisabled={isDisabled}
+                          isRowPending={isRowPending}
                         />
                       ))}
                     </Table.Body>
