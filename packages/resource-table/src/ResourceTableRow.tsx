@@ -7,6 +7,7 @@ interface Props<ResourceType> {
   resource: ResourceType;
   columns: Column<ResourceType>[];
   isFailed?: (resource: ResourceType) => boolean;
+  isDisabled?: (resource: ResourceType) => boolean;
   setContextMenuSelectedResource: (resource: ResourceType) => void;
 }
 
@@ -15,6 +16,7 @@ const ResourceTableRow = <ResourceType,>({
   resource,
   columns,
   isFailed,
+  isDisabled,
   setContextMenuSelectedResource,
 }: Props<ResourceType>): ReactElement => {
   const failed = useMemo(() => isFailed?.(resource), [resource]);
@@ -23,7 +25,9 @@ const ResourceTableRow = <ResourceType,>({
     <Table.Row
       id={id}
       onContextMenu={() => setContextMenuSelectedResource(resource)}
-      className={`rq-resource-table-row ${failed ? 'failed' : ''}`}
+      className={`rq-resource-table-row ${failed ? 'failed' : ''} ${
+        isDisabled?.(resource) ? 'disabled' : ''
+      }`}
     >
       {columns.map((column) => (
         <Table.Cell key={column.key}>{column.render(resource)}</Table.Cell>

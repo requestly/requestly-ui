@@ -28,5 +28,8 @@
         background-color: var(--rq-bg-color-error-row-selected);
       }
     }
+    .rq-resource-table-row.disabled {
+      opacity: 0.4;
+    }
   }
 }

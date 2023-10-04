@@ -36,6 +36,8 @@ export interface ResourceTableProps<ResourceType> {
   contextMenuOptions?: ContextMenuOption<ResourceType>[];
 
   emptyView?: ReactNode;
+
+  isDisabled?: (resource: ResourceType) => boolean;
 }
 
 const ROW_ID_PREFIX = 'resource-'; // TODO: move to local state
@@ -51,6 +53,7 @@ const ResourceTable = <ResourceType,>({
   detailsTabs,
   filter,
   isFailed,
+  isDisabled,
   onRowSelection,
   onDetailsTabChange,
   onContextMenuOpenChange,
@@ -131,6 +134,7 @@ const ResourceTable = <ResourceType,>({
                           columns={columnsToRender}
                           isFailed={isFailed}
                           setContextMenuSelectedResource={setContextMenuSelectedResource}
+                          isDisabled={isDisabled}
                         />
                       ))}
                     </Table.Body>
