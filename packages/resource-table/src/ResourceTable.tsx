@@ -1,12 +1,12 @@
 import React, { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react';
 import { ThemeProvider } from '@devtools-ds/themes';
 import { Table } from '@devtools-ds/table';
+import { SplitPane } from '@requestly-ui/split-pane';
 import useAutoScrollableContainer from './useAutoScrollableContainer';
 import ResourceDetailsTabs from './ResourceDetailsTabs/ResourceDetailsTabs';
 import ResourceTableRow from './ResourceTableRow';
 import { ColorScheme, Column, ContextMenuOption, DetailsTab } from './types';
 import { ContextMenu } from './ContextMenu';
-import { SplitPane } from '@requestly-ui/split-pane';
 import './resourceTable.scss';
 
 export interface ResourceTableProps<ResourceType> {
@@ -37,7 +37,9 @@ export interface ResourceTableProps<ResourceType> {
 
   emptyView?: ReactNode;
 
-  isRowPending?: (resource: ResourceType) => boolean;
+  disableAutoScroll?: boolean;
+
+  rowClassName?: (log: ResourceType) => string | string;
 }
 
 const ROW_ID_PREFIX = 'resource-'; // TODO: move to local state
@@ -53,17 +55,25 @@ const ResourceTable = <ResourceType,>({
   detailsTabs,
   filter,
   isFailed,
-  isRowPending,
   onRowSelection,
   onDetailsTabChange,
   onContextMenuOpenChange,
   contextMenuOptions,
   emptyView,
+  rowClassName,
+  disableAutoScroll = false,
 }: ResourceTableProps<ResourceType>): ReactElement => {
   const [selectedRowId, setSelectedRowId] = useState('');
   const [contextMenuSelectedResource, setContextMenuSelectedResource] =
     useState<ResourceType>(null);
   const [scrollableContainerRef, onScroll] = useAutoScrollableContainer<HTMLDivElement>(resources);
+
+  const scrollAttributes = disableAutoScroll
+    ? {}
+    : {
+        onScroll: onScroll,
+        ref: scrollableContainerRef,
+      };
 
   const selectedResource = useMemo<ResourceType>(() => {
     if (!selectedRowId) {
@@ -102,7 +112,7 @@ const ResourceTable = <ResourceType,>({
         <ThemeProvider theme={'chrome'} colorScheme={colorScheme}>
           <div className="rq-resource-table-container" data-scheme={colorScheme}>
             <SplitPane className="rq-resource-table-splitpane">
-              <div onScroll={onScroll} ref={scrollableContainerRef}>
+              <div {...scrollAttributes}>
                 <Table
                   className="rq-resource-table"
                   selected={selectedRowId}
@@ -134,7 +144,7 @@ const ResourceTable = <ResourceType,>({
                           columns={columnsToRender}
                           isFailed={isFailed}
                           setContextMenuSelectedResource={setContextMenuSelectedResource}
-                          isRowPending={isRowPending}
+                          rowClassName={rowClassName}
                         />
                       ))}
                     </Table.Body>
