@@ -1,6 +1,6 @@
 {
   "name": "@requestly-ui/resource-table",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Table to list resources and view details of each resource in a side-panel",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
