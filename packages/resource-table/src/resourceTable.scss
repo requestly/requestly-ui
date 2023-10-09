@@ -4,6 +4,10 @@
   width: 100%;
   overflow: auto;
 
+  thead {
+    z-index: 1;
+  }
+
   .rq-resource-table-splitpane {
     display: flex;
     height: 100%;
@@ -24,7 +28,7 @@
     .rq-resource-table-row.failed {
       color: var(--rq-color-error);
 
-      &[aria-selected='true'] {
+      &[aria-selected="true"] {
         background-color: var(--rq-bg-color-error-row-selected);
       }
     }
