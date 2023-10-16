@@ -1,6 +1,6 @@
-import React, { CSSProperties, ReactElement, memo, useMemo } from 'react';
-import { Table } from '@devtools-ds/table';
-import { Column } from './types';
+import React, { CSSProperties, ReactElement, memo, useMemo } from "react";
+import { Table } from "@devtools-ds/table";
+import { Column } from "./types";
 
 interface Props<ResourceType> {
   id: string;
@@ -24,9 +24,11 @@ const ResourceTableRow = <ResourceType,>({
   return (
     <Table.Row
       id={id}
+      //@ts-ignore
+      data-resource-id={resource?.id ?? null}
       onContextMenu={() => setContextMenuSelectedResource(resource)}
-      className={`rq-resource-table-row ${failed ? 'failed' : ''}`}
-      style={typeof rowStyle === 'object' ? rowStyle : rowStyle?.(resource)}
+      className={`rq-resource-table-row ${failed ? "failed" : ""}`}
+      style={typeof rowStyle === "object" ? rowStyle : rowStyle?.(resource)}
     >
       {columns.map((column) => (
         <Table.Cell key={column.key}>{column.render(resource)}</Table.Cell>

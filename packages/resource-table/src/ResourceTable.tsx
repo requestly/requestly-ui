@@ -1,13 +1,22 @@
-import React, { CSSProperties, ReactElement, ReactNode, useEffect, useMemo, useState } from "react";
-import { ThemeProvider } from "@devtools-ds/themes";
-import { Table } from "@devtools-ds/table";
-import { SplitPane } from "@requestly-ui/split-pane";
-import useAutoScrollableContainer from "./useAutoScrollableContainer";
-import ResourceDetailsTabs from "./ResourceDetailsTabs/ResourceDetailsTabs";
-import ResourceTableRow from "./ResourceTableRow";
-import { ColorScheme, Column, ContextMenuOption, DetailsTab } from "./types";
-import { ContextMenu } from "./ContextMenu";
-import "./resourceTable.scss";
+import React, {
+  CSSProperties,
+  ReactElement,
+  ReactNode,
+  RefObject,
+  UIEventHandler,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { ThemeProvider } from '@devtools-ds/themes';
+import { Table } from '@devtools-ds/table';
+import { SplitPane } from '@requestly-ui/split-pane';
+import useAutoScrollableContainer from './useAutoScrollableContainer';
+import ResourceDetailsTabs from './ResourceDetailsTabs/ResourceDetailsTabs';
+import ResourceTableRow from './ResourceTableRow';
+import { ColorScheme, Column, ContextMenuOption, DetailsTab } from './types';
+import { ContextMenu } from './ContextMenu';
+import './resourceTable.scss';
 
 export interface ResourceTableProps<ResourceType> {
   colorScheme?: ColorScheme;
@@ -40,11 +49,16 @@ export interface ResourceTableProps<ResourceType> {
   autoScroll?: boolean;
 
   rowStyle?: (log: ResourceType) => CSSProperties | CSSProperties;
+
+  tableRef?: RefObject<HTMLDivElement>;
+
+  onTableScroll?: UIEventHandler<HTMLElement>;
 }
 
-const ROW_ID_PREFIX = "resource-"; // TODO: move to local state
-const getRowId = (index: number): string => (index >= 0 ? `${ROW_ID_PREFIX}${index}` : "");
-const getRowIndex = (id: string): number => (id ? parseInt(id.substring(ROW_ID_PREFIX.length)) : undefined);
+const ROW_ID_PREFIX = 'resource-'; // TODO: move to local state
+const getRowId = (index: number): string => (index >= 0 ? `${ROW_ID_PREFIX}${index}` : '');
+const getRowIndex = (id: string): number =>
+  id ? parseInt(id.substring(ROW_ID_PREFIX.length)) : undefined;
 
 const ResourceTable = <ResourceType,>({
   colorScheme = ColorScheme.DARK,
@@ -61,15 +75,18 @@ const ResourceTable = <ResourceType,>({
   emptyView,
   rowStyle,
   autoScroll = false,
+  tableRef,
+  onTableScroll,
 }: ResourceTableProps<ResourceType>): ReactElement => {
-  const [selectedRowId, setSelectedRowId] = useState("");
-  const [contextMenuSelectedResource, setContextMenuSelectedResource] = useState<ResourceType>(null);
+  const [selectedRowId, setSelectedRowId] = useState('');
+  const [contextMenuSelectedResource, setContextMenuSelectedResource] =
+    useState<ResourceType>(null);
   const [scrollableContainerRef, onScroll] = useAutoScrollableContainer<HTMLDivElement>(resources);
 
   const scrollAttributes = autoScroll
     ? {
-        onScroll: onScroll,
-        ref: scrollableContainerRef,
+        onScroll: onTableScroll ?? onScroll,
+        ref: tableRef ?? scrollableContainerRef,
       }
     : {};
 
@@ -91,7 +108,10 @@ const ResourceTable = <ResourceType,>({
     return columns;
   }, [selectedResource, detailsTabs, primaryColumnKeys]);
 
-  const filteredResources = useMemo(() => (filter ? resources.filter(filter) : resources), [resources, filter]);
+  const filteredResources = useMemo(
+    () => (filter ? resources.filter(filter) : resources),
+    [resources, filter],
+  );
 
   useEffect(() => {
     if (selectedResource) {
@@ -104,15 +124,22 @@ const ResourceTable = <ResourceType,>({
       {!filteredResources.length && emptyView ? (
         emptyView
       ) : (
-        <ThemeProvider theme={"chrome"} colorScheme={colorScheme}>
+        <ThemeProvider theme={'chrome'} colorScheme={colorScheme}>
           <div className="rq-resource-table-container" data-scheme={colorScheme}>
             <SplitPane className="rq-resource-table-splitpane">
               <div {...scrollAttributes}>
-                <Table className="rq-resource-table" selected={selectedRowId} onSelected={setSelectedRowId}>
+                <Table
+                  className="rq-resource-table"
+                  selected={selectedRowId}
+                  onSelected={setSelectedRowId}
+                >
                   <Table.Head>
                     <Table.Row>
                       {columnsToRender.map((column) => (
-                        <Table.HeadCell key={column.key} style={{ width: column.width ? `${column.width}%` : "auto" }}>
+                        <Table.HeadCell
+                          key={column.key}
+                          style={{ width: column.width ? `${column.width}%` : 'auto' }}
+                        >
                           {column.header}
                         </Table.HeadCell>
                       ))}
@@ -143,7 +170,7 @@ const ResourceTable = <ResourceType,>({
                 <ResourceDetailsTabs
                   resource={selectedResource}
                   tabs={detailsTabs}
-                  close={() => setSelectedRowId("")}
+                  close={() => setSelectedRowId('')}
                   onDetailsTabChange={onDetailsTabChange}
                 />
               ) : null}
