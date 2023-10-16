@@ -50,8 +50,6 @@ export interface ResourceTableProps<ResourceType> {
 
   rowStyle?: (log: ResourceType) => CSSProperties | CSSProperties;
 
-  rowAttributes?: ((log: ResourceType) => object) | object;
-
   tableRef?: RefObject<HTMLDivElement>;
 
   onTableScroll?: UIEventHandler<HTMLElement>;
@@ -79,7 +77,6 @@ const ResourceTable = <ResourceType,>({
   autoScroll = false,
   tableRef,
   onTableScroll,
-  rowAttributes,
 }: ResourceTableProps<ResourceType>): ReactElement => {
   const [selectedRowId, setSelectedRowId] = useState('');
   const [contextMenuSelectedResource, setContextMenuSelectedResource] =
@@ -163,7 +160,6 @@ const ResourceTable = <ResourceType,>({
                           isFailed={isFailed}
                           setContextMenuSelectedResource={setContextMenuSelectedResource}
                           rowStyle={rowStyle}
-                          rowAttributes={rowAttributes}
                         />
                       ))}
                     </Table.Body>

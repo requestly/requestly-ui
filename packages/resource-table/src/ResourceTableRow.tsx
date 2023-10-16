@@ -1,6 +1,6 @@
-import React, { CSSProperties, ReactElement, memo, useMemo } from 'react';
-import { Table } from '@devtools-ds/table';
-import { Column } from './types';
+import React, { CSSProperties, ReactElement, memo, useMemo } from "react";
+import { Table } from "@devtools-ds/table";
+import { Column } from "./types";
 
 interface Props<ResourceType> {
   id: string;
@@ -9,7 +9,6 @@ interface Props<ResourceType> {
   isFailed?: (resource: ResourceType) => boolean;
   setContextMenuSelectedResource: (resource: ResourceType) => void;
   rowStyle?: ((log: ResourceType) => CSSProperties) | CSSProperties;
-  rowAttributes?: ((log: ResourceType) => object) | object;
 }
 
 const ResourceTableRow = <ResourceType,>({
@@ -19,18 +18,17 @@ const ResourceTableRow = <ResourceType,>({
   isFailed,
   setContextMenuSelectedResource,
   rowStyle = {},
-  rowAttributes = {},
 }: Props<ResourceType>): ReactElement => {
   const failed = useMemo(() => isFailed?.(resource), [resource]);
-  const attributes = typeof rowAttributes === 'object' ? rowAttributes : rowAttributes(resource);
 
   return (
     <Table.Row
       id={id}
+      //@ts-ignore
+      data-resource-id={resource?.id ?? null}
       onContextMenu={() => setContextMenuSelectedResource(resource)}
-      className={`rq-resource-table-row ${failed ? 'failed' : ''}`}
-      style={typeof rowStyle === 'object' ? rowStyle : rowStyle?.(resource)}
-      {...attributes}
+      className={`rq-resource-table-row ${failed ? "failed" : ""}`}
+      style={typeof rowStyle === "object" ? rowStyle : rowStyle?.(resource)}
     >
       {columns.map((column) => (
         <Table.Cell key={column.key}>{column.render(resource)}</Table.Cell>
