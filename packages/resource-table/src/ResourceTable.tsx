@@ -102,7 +102,7 @@ const ResourceTable = <ResourceType,>({
 
     const selectedRowIndex = getRowIndex(selectedRowId);
     return filteredResources[selectedRowIndex];
-  }, [selectedRowId]);
+  }, [selectedRowId, filteredResources]);
 
   const columnsToRender = useMemo<Column<ResourceType>[]>(() => {
     if (selectedResource && detailsTabs) {
