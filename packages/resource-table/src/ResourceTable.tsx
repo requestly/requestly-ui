@@ -90,13 +90,18 @@ const ResourceTable = <ResourceType,>({
       }
     : {};
 
+  const filteredResources = useMemo(
+    () => (filter ? resources.filter(filter) : resources),
+    [resources, filter],
+  );
+
   const selectedResource = useMemo<ResourceType>(() => {
     if (!selectedRowId) {
       return null;
     }
 
     const selectedRowIndex = getRowIndex(selectedRowId);
-    return resources[selectedRowIndex];
+    return filteredResources[selectedRowIndex];
   }, [selectedRowId]);
 
   const columnsToRender = useMemo<Column<ResourceType>[]>(() => {
@@ -107,11 +112,6 @@ const ResourceTable = <ResourceType,>({
     }
     return columns;
   }, [selectedResource, detailsTabs, primaryColumnKeys]);
-
-  const filteredResources = useMemo(
-    () => (filter ? resources.filter(filter) : resources),
-    [resources, filter],
-  );
 
   useEffect(() => {
     if (selectedResource) {
