@@ -1,0 +1,47 @@
+{
+  "name": "@requestly-ui/network-table",
+  "version": "0.1.0",
+  "description": "Table to display network logs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && rollup -c",
+    "watch": "rm -rf dist && rollup -cw",
+    "type-check": "tsc --noEmit --pretty"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/requestly/requestly-ui.git"
+  },
+  "author": "Requestly <contact@requestly.io> (https://requestly.io/)",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@devtools-ds/object-inspector": "^1.2.1",
+    "@requestly-ui/resource-table": "0.1.8",
+    "@types/har-format": "^1.2.16",
+    "antd": "4.24.5"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "@types/react": "^18.0.0",
+    "commonjs": "^0.0.1",
+    "rollup": "^3.20.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "sass": "^1.83.0",
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.4"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/requestly/requestly-ui/issues"
+  },
+  "homepage": "https://github.com/requestly/requestly-ui#readme"
+}
