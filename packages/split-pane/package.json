@@ -32,9 +32,9 @@
     "@rollup/plugin-typescript": "^11.1.0",
     "@types/react": "^18.0.0",
     "commonjs": "^0.0.1",
-    "node-sass": "^8.0.0",
     "rollup": "^3.20.4",
     "rollup-plugin-postcss": "^4.0.2",
+    "sass": "1.99.0",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4"
   },
